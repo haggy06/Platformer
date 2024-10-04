@@ -1,35 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.XR;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+[RequireComponent(typeof(GravityEntity))]
+public class PlayerController : Singleton<PlayerController>
 {
+    public bool controllable = true;
+
+    private GravityEntity control;
+    protected override void Awake()
+    {
+        base.Awake();
+        control = GetComponent<GravityEntity>();
+    }
+
+    protected override void SceneChanged(Scene replacedScene, Scene newScene)
+    {
+
+    }
+
     [SerializeField]
-    private MoveInfo curMove;
-}
-
-public static class PlayerStat
-{
-    public static void InitPlayerStat()
+    private int moveDir;
+    private void Update()
     {
-        #region _Set moveDict_
-        moveDict.Add("Untagged", MoveInfo.defaultInfo); // 기본 땅
-        #endregion
-    }
+        if (controllable)
+        {
+            moveDir = 0;
+            if (Input.GetKey(SettingData.keyData.leftMove))
+                moveDir--;
+            if (Input.GetKey(SettingData.keyData.rightMove))
+                moveDir++;
 
-    private static Dictionary<string, MoveInfo> moveDict = new Dictionary<string, MoveInfo>();
+            if (Input.GetKeyDown(SettingData.keyData.jump))
+            {
+                control.Jump();
+            }
+            else if (Input.GetKeyUp(SettingData.keyData.jump))
+            {
+                control.JumpCancle();
+            }
 
-    public static MoveInfo GetMoveInfo(string groundTag)
-    {
-        MoveInfo value;
-        if (!moveDict.TryGetValue(groundTag, out value)) // moveDIct에서 이동 정보 가져오기
-        { // 이동 정보가 없을 경우
-            value = MoveInfo.defaultInfo;
-
-            Debug.LogError(groundTag + " 이동 정보 로드 실패.");
+            if (Input.GetKeyDown(SettingData.keyData.dash))
+                GetComponent<Rigidbody2D>().AddForce(Vector2.right * (control.LookDir ? 1f : -1f) * 5f, ForceMode2D.Impulse);
         }
+    }
 
-        return value;
+    private void FixedUpdate()
+    {
+        control.Move(moveDir);
     }
 }
-

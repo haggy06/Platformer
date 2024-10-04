@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 1883101624}
   - component: {fileID: 1883101623}
   - component: {fileID: 1883101622}
-  - component: {fileID: 1883101621}
+  - component: {fileID: 1883101625}
   m_Layer: 3
   m_Name: Wall
   m_TagString: Untagged
@@ -361,24 +361,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1883101621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1883101620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b903fb8c0a253a14baa20f1ecdb2638b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeedRatio: 0
-  jumpPowerRatio: 0
-  friction: 0
-  conveyorSpeed: {x: 0, y: 0}
-  walkSound: {fileID: 0}
-  jumpSound: {fileID: 0}
 --- !u!61 &1883101622
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -491,6 +473,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1883101625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883101620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b903fb8c0a253a14baa20f1ecdb2638b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveData:
+    groundType: 0
+    moveSpeedRatio: 1
+    jumpPowerRatio: 1
+    friction: 1
+    defaultSpeed: {x: 0, y: 0}
+    walkSound: {fileID: 0}
+    jumpSound: {fileID: 0}
 --- !u!1 &1994269331
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +505,8 @@ GameObject:
   - component: {fileID: 1994269334}
   - component: {fileID: 1994269333}
   - component: {fileID: 1994269332}
+  - component: {fileID: 1994269337}
+  - component: {fileID: 1994269336}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -526,7 +530,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5228225420d7f604c9f28dedfac0da7a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -649,6 +653,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1994269336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994269331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924258b7cc599844bb7588075028de44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllable: 1
+  moveDir: 0
+--- !u!114 &1994269337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994269331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d67fb403eedda74693b201c56565414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpPower: 5
+  jumpCancleRatio: 0.1
+  moveData:
+    groundType: 0
+    moveSpeedRatio: 0
+    jumpPowerRatio: 0
+    friction: 0
+    defaultSpeed: {x: 0, y: 0}
+    walkSound: {fileID: 0}
+    jumpSound: {fileID: 0}
+  isGround: 0
+  isMove: 0
+  lookDir: 1
 --- !u!1 &2093244078
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +704,7 @@ GameObject:
   - component: {fileID: 2093244081}
   - component: {fileID: 2093244080}
   - component: {fileID: 2093244079}
+  - component: {fileID: 2093244082}
   m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
@@ -779,6 +824,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2093244082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093244078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b903fb8c0a253a14baa20f1ecdb2638b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveData:
+    groundType: 0
+    moveSpeedRatio: 1
+    jumpPowerRatio: 1
+    friction: 0.99812925
+    defaultSpeed: {x: 0, y: 0}
+    walkSound: {fileID: 0}
+    jumpSound: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

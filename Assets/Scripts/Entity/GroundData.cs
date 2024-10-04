@@ -4,52 +4,63 @@ using UnityEngine;
 
 public class GroundData : MonoBehaviour
 {
-    [Header("Move Data")]
     [SerializeField]
-    private GroundType groundType = GroundType.Normal;
-
-    [Space(5), SerializeField, Range(0f, 1f)]
-    public float moveSpeedRatio;
-    [SerializeField, Range(0f, 1f)]
-    public float jumpPowerRatio;
-
-    [Space(5), SerializeField, Range(0f, 1f)]
-    public float friction;
-
-    [Space(5), SerializeField, Tooltip("우측 상단 기준 속도")]
-    public Vector2 conveyorSpeed = Vector2.zero;
-
-
-    [Header("Move Sound")]
-    [SerializeField]
-    private AudioClip walkSound;
-    [SerializeField]
-    private AudioClip jumpSound;
+    private MoveData moveData = new MoveData(1f, 1f, 1f, Vector2.zero);
+    public MoveData MoveData => moveData;
 }
 
 public enum GroundType
 {
     Normal,
-    Slime
+    Slime,
+
+    Air
 }
 
 [System.Serializable]
-public struct MoveInfo
+public class MoveData
 {
-    [Range(0f, 1f)]
-    public float moveSpeedRatio;
-    [Range(0f, 1f)]
-    public float jumpPowerRatio;
+    public GroundType groundType = GroundType.Normal;
 
     [Space(5), Range(0f, 1f)]
-    public float friction;
+    public float moveSpeedRatio = 1f;
+    [Range(0f, 1f)]
+    public float jumpPowerRatio = 1f;
 
-    public MoveInfo(float moveSpeedRatio, float jumpPowerRatio, float friction)
+    [Space(5), Range(0f, 1f)]
+    public float friction = 1f;
+
+    [Space(5)]
+    public Vector2 defaultSpeed = Vector2.zero;
+
+
+    [Header("Sound")]
+    public AudioClip walkSound;
+    public AudioClip jumpSound;
+
+    public MoveData(float moveSpeedRatio, float jumpPowerRatio, float friction, Vector2 defaultSpeed)
     {
-        this.moveSpeedRatio = moveSpeedRatio;
+        this.moveSpeedRatio = moveSpeedRatio; 
         this.jumpPowerRatio = jumpPowerRatio;
         this.friction = friction;
+
+        this.defaultSpeed = defaultSpeed;
     }
 
-    public static MoveInfo defaultInfo = new MoveInfo(1f, 1f, 1f);
+    private static MoveData _defaltData = null;
+    public static MoveData DefaultMove
+    {
+        get
+        {
+            if (_defaltData == null) // 기본 데이터가 지정되어 있지 않을 경우
+            {
+                _defaltData = new MoveData(1f, 1f, 0.02f, Vector2.zero);
+                _defaltData.walkSound = ResourceLoader<AudioClip>.ResourceLoad(FolderName.Player, "NormalWalk");
+                _defaltData.jumpSound = ResourceLoader<AudioClip>.ResourceLoad(FolderName.Player, "NormalJump");
+            }
+
+            return _defaltData;
+        }
+    }
+    public static MoveData AirMove = new MoveData(1f, 1f, 0.05f, Vector2.zero);
 }
