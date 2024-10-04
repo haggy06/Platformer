@@ -5,7 +5,10 @@ using UnityEngine;
 public class GroundData : MonoBehaviour
 {
     [Header("Move Data")]
-    [SerializeField, Range(0f, 1f)]
+    [SerializeField]
+    private GroundType groundType = GroundType.Normal;
+
+    [Space(5), SerializeField, Range(0f, 1f)]
     public float moveSpeedRatio;
     [SerializeField, Range(0f, 1f)]
     public float jumpPowerRatio;
