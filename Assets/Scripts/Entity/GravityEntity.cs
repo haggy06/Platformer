@@ -10,7 +10,7 @@ public class GravityEntity : MonoBehaviour
 
     [Header("Move Status")]
     [SerializeField]
-    protected MoveData moveData;
+    protected MoveData moveData = MoveData.AirMove;
     [SerializeField]
     protected bool isGround = false;
     [SerializeField]
@@ -45,12 +45,17 @@ public class GravityEntity : MonoBehaviour
                 moveData = MoveData.DefaultMove; // GroundData가 없었을 경우 컴포넌트 추가 후 참조
         }
         else // 착지한 땅이 없을 경우
+        {
             moveData = MoveData.AirMove;
+
+            Debug.LogWarning(moveData.driftTime + ", " + MoveData.AirMove.driftTime);
+        }
         #endregion
     }
 
     public virtual void Move(int moveDir)
     {
+        Debug.Log(moveData.driftTime);
         float goalSpeed = moveSpeed * moveData.moveSpeedRatio;
         Vector2 velo = rigid2D.velocity;
 
@@ -65,11 +70,11 @@ public class GravityEntity : MonoBehaviour
 
             if (velo.x > 0f) // 우측으로 이동 중이었을 경우
             {
-                velo.x = Mathf.Clamp(velo.x - (goalSpeed * moveData.friction), 0f, velo.x);
+                velo.x = Mathf.Clamp(velo.x - (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), 0f, velo.x);
             }
             else // 좌측으로 이동 중이었을 경우
             {
-                velo.x = Mathf.Clamp(velo.x + (goalSpeed * moveData.friction), velo.x, 0f);
+                velo.x = Mathf.Clamp(velo.x + (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), velo.x, 0f);
             }
         }
         else // 이동일 경우
@@ -90,11 +95,11 @@ public class GravityEntity : MonoBehaviour
 
                 if (velo.x <= goalSpeed) // 목표 속도에 미치지 못하거나 같을 경우
                 {
-                    velo.x = Mathf.Clamp(velo.x + (goalSpeed * moveData.friction), velo.x, goalSpeed); // 가속
+                    velo.x = Mathf.Clamp(velo.x + (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), velo.x, goalSpeed); // 가속
                 }
                 else // 목표 속도를 넘었을 경우
                 {
-                    velo.x = Mathf.Clamp(velo.x - (goalSpeed * moveData.friction), goalSpeed, velo.x); // 감속
+                    velo.x = Mathf.Clamp(velo.x - (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), goalSpeed, velo.x); // 감속
                 }
             }
             else // 좌측 이동일 경우
@@ -107,11 +112,11 @@ public class GravityEntity : MonoBehaviour
 
                 if (velo.x >= -goalSpeed) // 목표 속도에 미치지 못하거나 같을 경우
                 {
-                    velo.x = Mathf.Clamp(velo.x - (goalSpeed * moveData.friction), -goalSpeed, velo.x); // 가속
+                    velo.x = Mathf.Clamp(velo.x - (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), -goalSpeed, velo.x); // 가속
                 }
                 else // 목표 속도를 넘었을 경우
                 {
-                    velo.x = Mathf.Clamp(velo.x + (goalSpeed * moveData.friction), velo.x, -goalSpeed); // 감속
+                    velo.x = Mathf.Clamp(velo.x + (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), velo.x, -goalSpeed); // 감속
                 }
             }
         }

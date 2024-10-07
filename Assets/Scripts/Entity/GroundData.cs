@@ -27,8 +27,8 @@ public class MoveData
     [Range(0f, 1f)]
     public float jumpPowerRatio = 1f;
 
-    [Space(5), Range(0f, 1f)]
-    public float friction = 1f;
+    [Space(5), Range(0.02f, 1f)]
+    public float driftTime = 0.1f;
 
     [Space(5)]
     public Vector2 defaultSpeed = Vector2.zero;
@@ -38,16 +38,18 @@ public class MoveData
     public AudioClip walkSound;
     public AudioClip jumpSound;
 
-    public MoveData(float moveSpeedRatio, float jumpPowerRatio, float friction, Vector2 defaultSpeed)
+    public MoveData(float moveSpeedRatio, float jumpPowerRatio, float driftTime, Vector2 defaultSpeed)
     {
         this.moveSpeedRatio = moveSpeedRatio; 
         this.jumpPowerRatio = jumpPowerRatio;
-        this.friction = friction;
+        this.driftTime = driftTime;
 
         this.defaultSpeed = defaultSpeed;
     }
 
     private static MoveData _defaltData = null;
+
+    /// <summary> { 1f, 1f, 0.02f, "NormalWalk", "NormalJump" } </summary>
     public static MoveData DefaultMove
     {
         get
@@ -62,5 +64,6 @@ public class MoveData
             return _defaltData;
         }
     }
-    public static MoveData AirMove = new MoveData(1f, 1f, 0.05f, Vector2.zero);
+    /// <summary> { 1f, 1f, 1f, Vector2.zero } </summary>
+    public static readonly MoveData AirMove = new MoveData(1f, 1f, 1f, Vector2.zero);
 }
