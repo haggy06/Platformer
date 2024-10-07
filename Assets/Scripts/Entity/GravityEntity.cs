@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public class GravityEntity : MonoBehaviour
@@ -10,7 +11,7 @@ public class GravityEntity : MonoBehaviour
 
     [Header("Move Status")]
     [SerializeField]
-    protected MoveData moveData = MoveData.AirMove;
+    protected MoveData moveData = new MoveData(GroundType.Normal, 1f, 1f, 0.8f, Vector2.zero);
     [SerializeField]
     protected bool isGround = false;
     [SerializeField]
@@ -42,13 +43,11 @@ public class GravityEntity : MonoBehaviour
             if (contactedGround.TryGetComponent<GroundData>(out GroundData groundData)) // 땅의 GroundData 참조 성공 시
                 moveData = groundData.MoveData;
             else // 참조 실패 시
-                moveData = MoveData.DefaultMove; // GroundData가 없었을 경우 컴포넌트 추가 후 참조
+                moveData = MoveData.defaultMove; // GroundData가 없었을 경우 컴포넌트 추가 후 참조
         }
         else // 착지한 땅이 없을 경우
         {
-            moveData = MoveData.AirMove;
-
-            Debug.LogWarning(moveData.driftTime + ", " + MoveData.AirMove.driftTime);
+            moveData = MoveData.airMove;
         }
         #endregion
     }

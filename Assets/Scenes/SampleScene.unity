@@ -489,7 +489,7 @@ MonoBehaviour:
     groundType: 0
     moveSpeedRatio: 1
     jumpPowerRatio: 1
-    driftTime: 0.02
+    driftTime: 0.1
     defaultSpeed: {x: 0, y: 0}
     walkSound: {fileID: 0}
     jumpSound: {fileID: 0}
@@ -840,7 +840,7 @@ MonoBehaviour:
     groundType: 0
     moveSpeedRatio: 1
     jumpPowerRatio: 1
-    driftTime: 0.02
+    driftTime: 0.1
     defaultSpeed: {x: 0, y: 0}
     walkSound: {fileID: 0}
     jumpSound: {fileID: 0}
