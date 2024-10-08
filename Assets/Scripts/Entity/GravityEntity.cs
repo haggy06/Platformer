@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
-public class GravityEntity : MonoBehaviour
+public class GravityEntity : Controller
 {
     [Header("Move Setting")]
     public float moveSpeed = 5f;
@@ -24,8 +24,10 @@ public class GravityEntity : MonoBehaviour
 
     protected BoxCollider2D col;
     protected Rigidbody2D rigid2D;
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         col = GetComponent<BoxCollider2D>();
         rigid2D = GetComponent<Rigidbody2D>();
     }
@@ -68,13 +70,9 @@ public class GravityEntity : MonoBehaviour
             }
 
             if (velo.x > 0f) // 우측으로 이동 중이었을 경우
-            {
-                velo.x = Mathf.Clamp(velo.x - (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), 0f, velo.x);
-            }
+                velo.x = Mathf.Clamp(velo.x - (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), 0f, velo.x); // 감속
             else // 좌측으로 이동 중이었을 경우
-            {
-                velo.x = Mathf.Clamp(velo.x + (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), velo.x, 0f);
-            }
+                velo.x = Mathf.Clamp(velo.x + (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), velo.x, 0f); // 감속
         }
         else // 이동일 경우
         {
@@ -93,13 +91,9 @@ public class GravityEntity : MonoBehaviour
                 }
 
                 if (velo.x <= goalSpeed) // 목표 속도에 미치지 못하거나 같을 경우
-                {
                     velo.x = Mathf.Clamp(velo.x + (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), velo.x, goalSpeed); // 가속
-                }
                 else // 목표 속도를 넘었을 경우
-                {
                     velo.x = Mathf.Clamp(velo.x - (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), goalSpeed, velo.x); // 감속
-                }
             }
             else // 좌측 이동일 경우
             {
@@ -110,13 +104,9 @@ public class GravityEntity : MonoBehaviour
                 }
 
                 if (velo.x >= -goalSpeed) // 목표 속도에 미치지 못하거나 같을 경우
-                {
                     velo.x = Mathf.Clamp(velo.x - (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), -goalSpeed, velo.x); // 가속
-                }
                 else // 목표 속도를 넘었을 경우
-                {
                     velo.x = Mathf.Clamp(velo.x + (goalSpeed / moveData.driftTime * Time.fixedDeltaTime), velo.x, -goalSpeed); // 감속
-                }
             }
         }
         #endregion
