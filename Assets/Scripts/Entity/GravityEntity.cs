@@ -2,35 +2,11 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
-public class GravityEntity : Controller
+public class GravityEntity : MoveBase
 {
-    [Header("Move Setting")]
-    public float moveSpeed = 5f;
-    public float jumpPower = 5f;
-    public float jumpCancleRatio = 0.1f;
-
-    [Header("Move Status")]
-    [SerializeField]
-    protected MoveData moveData = new MoveData(GroundType.Normal, 1f, 1f, 0.8f, Vector2.zero);
     [SerializeField]
     protected bool isGround = false;
-    [SerializeField]
-    protected bool isMove = false;
-    [SerializeField, Tooltip("우측 = true, 좌측 = false")]
-    protected bool lookDir = true;
     public bool IsGround => isGround;
-    public bool IsMove => isMove;
-    public bool LookDir => lookDir;
-
-    protected BoxCollider2D col;
-    protected Rigidbody2D rigid2D;
-    protected override void Awake()
-    {
-        base.Awake();
-
-        col = GetComponent<BoxCollider2D>();
-        rigid2D = GetComponent<Rigidbody2D>();
-    }
     private void FixedUpdate()
     {
         #region _Ground Check_
@@ -54,14 +30,14 @@ public class GravityEntity : Controller
         #endregion
     }
 
-    public virtual void Move(int moveDir)
+    public override void Move(int moveDirX, int moveDirY)
     {
         Debug.Log(moveData.driftTime);
-        float goalSpeed = moveSpeed * moveData.moveSpeedRatio;
+        float goalSpeed = moveInfo.moveSpeed * moveData.moveSpeedRatio;
         Vector2 velo = rigid2D.velocity;
 
         #region _Move Logic_
-        if (moveDir == 0) // 정지일 경우
+        if (moveDirX == 0) // 정지일 경우
         {
             if (isMove) // 움직이고 있었을 경우
             {
@@ -82,7 +58,7 @@ public class GravityEntity : Controller
                 StepEvent.Invoke();
             }
 
-            if (moveDir > 0) // 우측 이동일 경우
+            if (moveDirX > 0) // 우측 이동일 경우
             {
                 if (!lookDir) // 왼쪽을 보고 있었을 경우
                 {
@@ -117,21 +93,21 @@ public class GravityEntity : Controller
 
         rigid2D.velocity = velo;
     }
-    public virtual bool Jump(bool ignoreGround = false)
+    public override bool Jump(bool ignoreGround = false)
     {
         if (isGround || ignoreGround) // 착지해 있거나 착지 무시일 때
         {
             JumpEvent.Invoke();
-            rigid2D.velocity = new Vector2(rigid2D.velocity.x, jumpPower * moveData.jumpPowerRatio);
+            rigid2D.velocity = new Vector2(rigid2D.velocity.x, moveInfo.jumpPower * moveData.jumpPowerRatio);
 
             return true;
         }
         else
             return false;
     }
-    public virtual bool JumpCancle()
+    public override bool JumpCancle()
     {
-        float jumpCancleVelo = jumpPower * jumpCancleRatio * moveData.jumpPowerRatio;
+        float jumpCancleVelo = moveInfo.jumpPower * moveInfo.jumpCancleRatio * moveData.jumpPowerRatio;
         if (rigid2D.velocity.y >= jumpCancleVelo) // 점프 캔슬 속도보다 빠르게 상승 중이었을 경우
         {
             rigid2D.velocity = new Vector2(rigid2D.velocity.x, jumpCancleVelo);

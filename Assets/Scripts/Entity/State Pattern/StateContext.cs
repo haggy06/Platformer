@@ -10,18 +10,18 @@ public class StateContext
         this.controller = controller;
     }
 
-    private State curState;
+    private IState curState;
     public void Transition()
     {
-        curState.Act(controller);
+        curState.StateStart(controller);
     }
-    public void Transition(State newState)
+    public void Transition(IState newState)
     {
         curState = newState;
-        curState.Act(controller);
+        curState.StateStart(controller);
     }
 
-    public State GetCurState()
+    public IState GetCurState()
     {
         return curState;
     }

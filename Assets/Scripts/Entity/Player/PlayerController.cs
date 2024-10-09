@@ -49,6 +49,6 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
-        control.Move(moveDir);
+        control.Move(moveDir, 0);
     }
 }

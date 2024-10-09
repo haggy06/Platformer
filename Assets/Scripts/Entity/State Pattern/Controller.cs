@@ -5,7 +5,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     [SerializeField]
-    protected State initialState;
+    protected IState initialState;
 
     private StateContext stateContext;
     public StateContext StateContext => stateContext;

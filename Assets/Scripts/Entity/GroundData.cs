@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GroundData : MonoBehaviour
@@ -66,7 +67,13 @@ public class MoveData
     }
 
     /// <summary> { 1f, 1f, 0.8f, Vector2.zero } </summary>
-    public static readonly MoveData airMove = new MoveData(GroundType.Air, 1f, 1f, 0.8f, Vector2.zero);
+    public static MoveData airMove
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => _airMove;
+    }
+
+    private static readonly MoveData _airMove = new MoveData(GroundType.Air, 1f, 1f, 0.8f, Vector2.zero);
 
     public override string ToString()
     {
