@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 765503350}
   - component: {fileID: 765503349}
   - component: {fileID: 765503348}
-  - component: {fileID: 765503347}
+  - component: {fileID: 765503352}
   m_Layer: 0
   m_Name: Entity Dummy
   m_TagString: Untagged
@@ -362,33 +362,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &765503347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765503346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182ee55677ca03b45ade31fc70ad2766, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpPower: 5
-  jumpCancleRatio: 0.1
-  moveData:
-    groundType: 0
-    moveSpeedRatio: 1
-    jumpPowerRatio: 1
-    driftTime: 0.8
-    defaultSpeed: {x: 0, y: 0}
-    walkSound: {fileID: 0}
-    jumpSound: {fileID: 0}
-  isGround: 0
-  isMove: 0
-  lookDir: 1
-  ignoreCliff: 0
 --- !u!50 &765503348
 Rigidbody2D:
   serializedVersion: 4
@@ -528,6 +501,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &765503352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765503346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a102cf46901f81b40bf1aff02fb5e532, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curState: 0
+  moveDetiction: {fileID: 0}
+  attackDetiction: {fileID: 0}
 --- !u!1 &1883101620
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,9 +853,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d67fb403eedda74693b201c56565414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpPower: 5
-  jumpCancleRatio: 0.1
+  moveInfo:
+    moveSpeed: 5
+    jumpPower: 5
+    jumpCancleRatio: 0.1
   moveData:
     groundType: 0
     moveSpeedRatio: 1
@@ -876,9 +865,9 @@ MonoBehaviour:
     defaultSpeed: {x: 0, y: 0}
     walkSound: {fileID: 0}
     jumpSound: {fileID: 0}
-  isGround: 0
   isMove: 0
   lookDir: 1
+  isGround: 0
 --- !u!1 &2093244078
 GameObject:
   m_ObjectHideFlags: 0
