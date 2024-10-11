@@ -355,8 +355,6 @@ GameObject:
   - component: {fileID: 765503349}
   - component: {fileID: 765503348}
   - component: {fileID: 765503352}
-  - component: {fileID: 765503354}
-  - component: {fileID: 765503353}
   m_Layer: 0
   m_Name: Entity Dummy
   m_TagString: Untagged
@@ -512,60 +510,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 765503346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f82fbf6baf2cb344abaab90bf13f0dac, type: 3}
+  m_Script: {fileID: 11500000, guid: 52bab508e8b48044db6b5963f3db27c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorArray:
-  - _parentTree: {fileID: 765503352}
-    isAnd: 1
-    checks:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: 
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  sequenceArray: []
-  taskArray: []
---- !u!114 &765503353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765503346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe58df89b5b74a97a123b5ed2b70422, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data:
-    _json: '{"nest":{"source":"Macro","macro":0,"embed":null}}'
-    _objectReferences:
-    - {fileID: 11400000, guid: 721d4572928caff48a15e03388d3e548, type: 2}
---- !u!114 &765503354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765503346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data:
-    _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
-    _objectReferences: []
+  currentStateType: 0
+  patrolState: {fileID: 0}
+  chaseState: {fileID: 0}
+  attackState: {fileID: 0}
+  targetType: 0
+  chaseONCollider: {fileID: 0}
+  chaseOFFCollider: {fileID: 0}
+  attackCollider: {fileID: 0}
 --- !u!1 &1588707748
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,21 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class State
+public class State : MonoBehaviour
 {
-    
-    protected StateMachine stateMachine;
-
     public virtual void EnterState()
     {
 
     }
-    public virtual void FrameUpdate()
+    public virtual void ExitState()
     {
 
     }
-    public virtual void PhysicsUpdate()
+
+    public virtual void OnUpdate()
+    {
+
+    }
+    public virtual void OnFixedUpdate()
+    {
+
+    }
+
+    protected virtual void TaskFinish()
+    {
+        if (TaskFinished != null)
+        {
+            TaskFinished.Invoke();
+            TaskFinished = null;
+        }
+    }
+    public event System.Action TaskFinished;
+}
+
+[System.Serializable]
+public class Task
+{        
+    protected StateMachine stateMachine;
+
+    public virtual void EnterState()
     {
 
     }
