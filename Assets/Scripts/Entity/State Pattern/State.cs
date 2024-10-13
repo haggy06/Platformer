@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class State : MonoBehaviour
 {
+    [field : SerializeField]
+    public bool isActive { get; private set; }
+
     public virtual void EnterState()
     {
-
+        isActive = true;
     }
     public virtual void ExitState()
     {
-
+        isActive = false;
     }
 
-    public virtual void OnUpdate()
-    {
-
-    }
     public virtual void OnFixedUpdate()
     {
 

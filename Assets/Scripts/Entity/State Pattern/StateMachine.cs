@@ -19,10 +19,6 @@ public class StateMachine : MonoBehaviour
     {
         ResetState(currentStateType);
     }
-    protected virtual void Update()
-    {
-        currentState.OnUpdate();
-    }
     protected virtual void FixedUpdate()
     {
         currentState.OnFixedUpdate();

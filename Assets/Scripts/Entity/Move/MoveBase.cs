@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public abstract class MoveBase : MonoBehaviour
 {
     [Header("Move Setting")]

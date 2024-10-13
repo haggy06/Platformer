@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public class GravityEntity : MoveBase
 {
     [SerializeField]
