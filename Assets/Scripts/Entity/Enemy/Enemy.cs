@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(EnemyStateMachine))]
+//[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(EnemyStateMachine))]
 public abstract class Enemy : MonoBehaviour, IDamageable, IMoveable
 {
     [SerializeField]

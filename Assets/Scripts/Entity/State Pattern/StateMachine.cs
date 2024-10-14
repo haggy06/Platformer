@@ -15,13 +15,19 @@ public class StateMachine : MonoBehaviour
     [SerializeField]
     protected State attackState;
 
+    [Space(10)]
+    [SerializeField]
+    protected EntityType targetType;
+    [field: Space(15), SerializeField]
+    public Transform Target { get; protected set; }
+
     protected virtual void Awake()
     {
         ResetState(currentStateType);
     }
     protected virtual void FixedUpdate()
     {
-        currentState.OnFixedUpdate();
+        currentState.OnFixedUpdate(this);
     }
 
     public void ResetState(StateType newStateType)
@@ -40,11 +46,11 @@ public class StateMachine : MonoBehaviour
                 break;
         }
 
-        currentState.EnterState();
+        currentState.EnterState(this);
     }
     public void ChangeState(StateType newStateType)
     {
-        currentState.ExitState();
+        currentState.ExitState(this);
 
         currentStateType = newStateType;
         switch (currentStateType)
@@ -60,7 +66,7 @@ public class StateMachine : MonoBehaviour
                 break;
         }
 
-        currentState.EnterState();
+        currentState.EnterState(this);
     }
 }
 

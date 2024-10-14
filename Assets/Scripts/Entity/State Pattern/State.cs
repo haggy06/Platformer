@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State : MonoBehaviour
+public abstract class State : MonoBehaviour
 {
     [field : SerializeField]
-    public bool isActive { get; private set; }
+    public bool IsActive { get; private set; }
 
-    public virtual void EnterState()
+    public virtual void EnterState(StateMachine stateMachine)
     {
-        isActive = true;
+        IsActive = true;
     }
-    public virtual void ExitState()
+    public virtual void ExitState(StateMachine stateMachine)
     {
-        isActive = false;
+        IsActive = false;
     }
 
-    public virtual void OnFixedUpdate()
+    public virtual void OnFixedUpdate(StateMachine stateMachine)
     {
 
     }

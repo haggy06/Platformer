@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,8 +10,8 @@ public class GravityEntity : MoveBase
     private void FixedUpdate()
     {
         #region _Ground Check_
-        Vector2 footPosition = new Vector2(col.bounds.center.x, col.bounds.min.y - 0.1f);
-        Vector2 offset = new Vector2((col.bounds.size.x / 2f) - 0.01f, 0f); // 벽에 붙었을 때 감지되는 걸 방지
+        Vector2 footPosition = new Vector2(Col.bounds.center.x, Col.bounds.min.y - 0.1f);
+        Vector2 offset = new Vector2((Col.bounds.size.x / 2f) - 0.01f, 0f); // 벽에 붙었을 때 감지되는 걸 방지
         Collider2D contactedGround = Physics2D.OverlapArea(footPosition - offset, footPosition + offset, 1 << (int)LAYER.Ground);
 
         isGround = contactedGround;
@@ -28,19 +29,23 @@ public class GravityEntity : MoveBase
         }
         #endregion
     }
-
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override void MaintainMove()
+    {
+        Move(LookDir ? 1 : -1, 0);
+    }
     public override void Move(int moveDirX, int moveDirY)
     {
-        Debug.Log(moveData.driftTime);
+        //Debug.Log(moveData.driftTime);
         float goalSpeed = moveInfo.moveSpeed * moveData.moveSpeedRatio;
-        Vector2 velo = rigid2D.velocity;
+        Vector2 velo = Rigid2D.velocity;
 
         #region _Move Logic_
         if (moveDirX == 0) // 정지일 경우
         {
-            if (isMove) // 움직이고 있었을 경우
+            if (moveDir != Vector2.zero) // 움직이고 있었을 경우
             {
-                isMove = false;
+                moveDir = Vector2.zero;
                 BreakEvent.Invoke();
             }
 
@@ -51,9 +56,9 @@ public class GravityEntity : MoveBase
         }
         else // 이동일 경우
         {
-            if (!isMove) // 움직이고 있지 않았을 경우
+            if (moveDir == Vector2.zero) // 움직이고 있지 않았을 경우
             {
-                isMove = true;
+                moveDir = new Vector2(moveDirX, moveDirY);
                 StepEvent.Invoke();
             }
 
@@ -90,14 +95,14 @@ public class GravityEntity : MoveBase
         velo += moveData.defaultSpeed;
         #endregion
 
-        rigid2D.velocity = velo;
+        Rigid2D.velocity = velo;
     }
     public override bool Jump(bool ignoreGround = false)
     {
         if (isGround || ignoreGround) // 착지해 있거나 착지 무시일 때
         {
             JumpEvent.Invoke();
-            rigid2D.velocity = new Vector2(rigid2D.velocity.x, moveInfo.jumpPower * moveData.jumpPowerRatio);
+            Rigid2D.velocity = new Vector2(Rigid2D.velocity.x, moveInfo.jumpPower * moveData.jumpPowerRatio);
 
             return true;
         }
@@ -107,9 +112,9 @@ public class GravityEntity : MoveBase
     public override bool JumpCancle()
     {
         float jumpCancleVelo = moveInfo.jumpPower * moveInfo.jumpCancleRatio * moveData.jumpPowerRatio;
-        if (rigid2D.velocity.y >= jumpCancleVelo) // 점프 캔슬 속도보다 빠르게 상승 중이었을 경우
+        if (Rigid2D.velocity.y >= jumpCancleVelo) // 점프 캔슬 속도보다 빠르게 상승 중이었을 경우
         {
-            rigid2D.velocity = new Vector2(rigid2D.velocity.x, jumpCancleVelo);
+            Rigid2D.velocity = new Vector2(Rigid2D.velocity.x, jumpCancleVelo);
 
             return true;
         }
@@ -132,5 +137,7 @@ public enum LAYER
     Ground,
     Water,
     UI,
+    PhysicalBox,
+    Censor,
 
 }

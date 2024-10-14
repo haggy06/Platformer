@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public abstract class MoveBase : MonoBehaviour
 {
     [Header("Move Setting")]
@@ -12,20 +12,20 @@ public abstract class MoveBase : MonoBehaviour
     [SerializeField]
     protected MoveData moveData = new MoveData(GroundType.Normal, 1f, 1f, 0.8f, Vector2.zero);
     [SerializeField]
-    protected bool isMove = false;
+    protected Vector2 moveDir = Vector2.zero;
     [SerializeField, Tooltip("¿ìÃø = true, ÁÂÃø = false")]
     protected bool lookDir = true;
-    public bool IsMove => isMove;
+    public Vector2 MoveDir => moveDir;
     public bool LookDir => lookDir;
 
-    protected BoxCollider2D col;
-    protected Rigidbody2D rigid2D;
+    public BoxCollider2D Col { get; private set; }
+    public Rigidbody2D Rigid2D { get; private set; }
     protected virtual void Awake()
     {
-        col = GetComponent<BoxCollider2D>();
-        rigid2D = GetComponent<Rigidbody2D>();
+        Col = GetComponent<BoxCollider2D>();
+        Rigid2D = GetComponentInParent<Rigidbody2D>();
     }
-
+    public abstract void MaintainMove();
     public abstract void Move(int moveDirX, int moveDirY);
     public abstract bool Jump(bool ignoreGround = false);
     public abstract bool JumpCancle();
@@ -36,6 +36,8 @@ public struct MoveInfo
 {
     public float moveSpeed;
     public float jumpPower;
+
+    [Range(0f, 1f)]
     public float jumpCancleRatio;
 
     public MoveInfo(float moveSpeed, float jumpPower, float jumpCancleRatio)
