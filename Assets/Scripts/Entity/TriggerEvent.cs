@@ -8,6 +8,7 @@ public class TriggerEvent : MonoBehaviour
     public event System.Action<TriggerEvent, Collider2D> TriggerEnterEvent;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        print(collision.name);
         if (TriggerEnterEvent != null)
             TriggerEnterEvent.Invoke(this, collision);
     }

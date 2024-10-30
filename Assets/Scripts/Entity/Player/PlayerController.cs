@@ -4,16 +4,16 @@ using UnityEditor.XR;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(GravityEntity))]
+[RequireComponent(typeof(GravityMove))]
 public class PlayerController : Singleton<PlayerController>
 {
     public bool controllable = true;
 
-    private GravityEntity control;
+    private GravityMove control;
     protected override void Awake()
     {
         base.Awake();
-        control = GetComponent<GravityEntity>();
+        control = GetComponent<GravityMove>();
     }
 
     protected override void SceneChanged(Scene replacedScene, Scene newScene)

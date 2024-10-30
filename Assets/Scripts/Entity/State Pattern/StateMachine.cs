@@ -17,8 +17,8 @@ public class StateMachine : MonoBehaviour
 
     [Space(10)]
     [SerializeField]
-    protected EntityType targetType;
-    [field: Space(15), SerializeField]
+    protected TAG targetTag = TAG.Player;
+    [field: SerializeField]
     public Transform Target { get; protected set; }
 
     protected virtual void Awake()
@@ -50,6 +50,12 @@ public class StateMachine : MonoBehaviour
     }
     public void ChangeState(StateType newStateType)
     {
+        if (!currentState.CanFinishState) // 현재 상태를 종료할 수 없을 경우
+        {
+            currentState.TaskFinishEvent += () => ChangeState(newStateType); // 현재 상태가 종료 가능해질 때 이 메소드를 재호출한다.
+            return;
+        }
+
         currentState.ExitState(this);
 
         currentStateType = newStateType;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(GravityEntity))]
+[RequireComponent(typeof(GravityMove))]
 public class MoveState : State
 {
     [Header("Move Setting")]
@@ -10,10 +10,10 @@ public class MoveState : State
     protected bool changeMoveInfo = true;
     [SerializeField]
     protected MoveInfo moveInfo;
-    protected GravityEntity gravityEntity;
+    protected GravityMove gravityMove;
     protected virtual void Awake()
     {
-        gravityEntity = GetComponent<GravityEntity>();
+        gravityMove = GetComponent<GravityMove>();
     }
 
     public override void EnterState(StateMachine stateMachine)
@@ -21,6 +21,6 @@ public class MoveState : State
         base.EnterState(stateMachine);
 
         if (changeMoveInfo)
-            gravityEntity.moveInfo = moveInfo;
+            gravityMove.moveInfo = moveInfo;
     }
 }

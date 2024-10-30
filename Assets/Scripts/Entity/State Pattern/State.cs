@@ -6,6 +6,20 @@ public abstract class State : MonoBehaviour
 {
     [field : SerializeField]
     public bool IsActive { get; private set; }
+    [SerializeField]
+    private bool canFinishState = true;
+    public bool CanFinishState
+    {
+        get => canFinishState;
+        protected set
+        {
+            canFinishState = value;
+            if (canFinishState) // 종료 가능해졌을 경우
+            {
+                StateFinish();
+            }
+        }
+    }
 
     public virtual void EnterState(StateMachine stateMachine)
     {
@@ -21,28 +35,46 @@ public abstract class State : MonoBehaviour
 
     }
 
-    protected virtual void TaskFinish()
+    protected virtual void StateFinish()
     {
-        if (TaskFinished != null)
+        if (TaskFinishEvent != null)
         {
-            TaskFinished.Invoke();
-            TaskFinished = null;
+            TaskFinishEvent.Invoke();
+            TaskFinishEvent = null;
         }
     }
-    public event System.Action TaskFinished;
+    public event System.Action TaskFinishEvent;
 }
 
 [System.Serializable]
 public class Task
-{        
-    protected StateMachine stateMachine;
+{
+    [SerializeField]
+    protected bool canStopWhileRunning = true;
+    protected bool isRunning = false;
 
-    public virtual void EnterState()
+    public bool CanStopWhileRunning => canStopWhileRunning;
+    public bool IsRunning => isRunning;
+
+    protected SequenceState sequence;
+
+    public virtual void TaskStart(SequenceState sequence)
     {
-
+        isRunning = true;
+        this.sequence = sequence;
     }
-    public virtual void ExitState() 
+    public virtual void OnFixedUpdate()
     {
         
+    }
+    public virtual void TaskComplete()
+    {
+        isRunning = false;
+        sequence.CurTaskFInished();
+    }
+
+    public void ForceQuit()
+    {
+        isRunning = false;
     }
 }
